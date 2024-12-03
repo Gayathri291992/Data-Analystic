@@ -1,0 +1,747 @@
+DAY 1
+
+create database SQL_Practice1
+
+use SQL_Practice1
+
+# create table
+create table student
+  (
+  Id int identity(1101,1),
+  Name varchar(50),
+  Age int,
+  Salary Float
+  )
+
+  # insert 
+  insert into student(Name,Age,Salary)
+  values ('Jai',31,4507.10),
+         ('Shre',30,4457.70),
+		 ('Hari',29,4347.30),
+		 ('Sai',28,4287.40),
+		 ('Raj',38,4477.20),
+		 ('Jaya',45,4177.10),
+		 ('Vijay',27,4287.70),
+		 ('Amu',29,4117.44),
+		 ('sham',37,4787.77),
+		 ('Madhu',35,4627.55),
+		 ('Anu',32,4357.11),
+		 ('Vani',31,4237.00),
+		 ('Rani',33,4777.20);
+
+		 insert into student values('John',29,4550.21)
+		  insert into student(Name,Age) values ('Shaa',32)
+
+
+		  # select table
+select * from student
+
+# update
+update student set age = 40 where id =1101
+
+# Delete
+Delete Student where id = 1110
+
+
+if you want to recover your data back use 
+# begin tran select with delete key
+# if you give roll back again it will store the data back. first only select rollback
+
+begin tran
+  Delete Student where id = 1111
+  rollback
+
+  begin tran
+  update student set Salary = 4210.1 where id =1117
+  rollback
+  -------------------------------------------------------------------------------------------
+  DAY 2
+
+  #if you want to delete full table without columns use truncate
+  truncate (table name)
+
+  #if you want to delete datas with table use drop
+  drop table (tablename)
+  # if you wnat to view only specific column to use this
+
+  select Name from student
+    select Name,age from student
+
+
+	#IF dont want repeatd data use distint
+	insert into student values('John',29,4550.21)
+		  insert into student(Name,Age) values ('Shaa',32)
+	select distinct name from student
+	select distinct name,Salary from student
+
+	select * from student
+ 
+
+ # Aggregate function
+ i) min()
+ ii) max()
+ iii) count()
+ iv) sum()
+ v) avg()
+
+ i)min()
+ select min(salary)from student
+ #use aliyas name 
+ select min(salary)as Minimum_salary from student
+
+ ii)max()
+  select max(salary)from student
+  #use aliyas name 
+ select max(salary)as Maximum_salary from student
+
+ iii)count()
+ select count(salary)from student where salary = 4550.21
+
+ iv)sum()with aliyas
+ select sum(salary) as total_salary from student
+
+ v)avg()with aliyas
+ select avg(salary) as average_salary from student
+
+ select * from student
+
+ #like operater
+ 1)start with 
+ select * from student where Name like 'r%'
+2)end with
+  select * from student where Name like '%i'
+3)middle
+   select * from student where Name like '%ay%'
+
+#OR operater
+select * from student where salary = 4507.1 or salary = 4550.21
+
+#AND operater
+select * from student where salary = 4507.1 and salary = 4550.21
+#use not equal !=
+select * from student where salary != 4507.1 and salary != 4550.21
+
+#IN operater
+select * from student where salary  in (4507.1, 4550.21)
+#NOTIN
+select * from student where ID not in(1109,1113,1115,1117)
+
+#USE BETWEEN (kind of Range)
+select * from student where Salary between 4100 and 4300
+select * from student where Salary between > 4100 and 4300
+
+ select * from student
+
+ -------------------------------------------------------------------------------------------------------
+ DAY 3
+
+ # ALTER STATEMENT
+
+1) add
+ alter table student add Place varchar(100)
+
+2) delete column
+alter table student drop column place
+
+3)if you want to modify the data type use this
+alter table student alter column salary int
+
+ #if you what to update the data use update key
+
+ update student set Place ='CederFalls' where id = 1109
+ update student set Place ='Iowa' where id = 1110
+ update student set Place ='CederFalls' where id = 1111
+ update student set Place ='CederRapides' where id = 1112
+ update student set Place ='Iowa' where id = 1113
+ update student set Place ='CederRapides' where id = 1114
+ update student set Place ='CederRapides' where id = 1115
+ update student set Place ='Iowa' where id = 1116
+
+#VIEW TABLE (to view the perticular table)
+create view view_student as 
+select * from student
+
+select * from view_student
+
+#view table perticular colunm use this
+ alter view view_student as 
+select Name,Place from student
+
+
+ select * from student
+
+select * from view_student
+
+#ORDER BY
+#ASSENDING ORDER DECENDING ORDER(ASC/DESC)ORDER
+1)ASC
+select * from student order by Salary 
+          OR
+select * from student order by salary asc
+
+2)DESC
+select * from student order by salary desc
+
+#GROUP BY(if you have same names that should be combain the salary together)
+select Name, sum(Salary) as total from student group by Name
+
+#HAVING
+select Name, sum(Salary) as total from student group by Name having sum(salary)>=4400
+
+#ROUND
+alter table student alter column salary float
+update student set Salary =4251.33 where id = 1115
+ update student set Salary =4132.50 where id = 1117
+
+ select salary,ROUND(salary,0)as total from student
+
+ #RENAME THE COLUMN NAME ( i change name colum into Emp Name)
+  sp_rename 'student.Name','Emp_Name','Column'
+
+# RENAME THE TABLE NAME
+sp_rename'student','student login'
+sp_rename'student login','student'
+
+ select * from student 
+ ----------------------------------------------------------------------------------------------------
+
+ Day 4 
+ # RDBMS - Relation Database Mangement System
+
+ #CONSTRAINTS
+ 1) Constraints means condition
+ 2) types of Constraints
+     i) Not null
+	 ii) Unique
+	 iii) Primary Key
+	 iv) Forgein key
+	 v) Check
+	 vi) Default
+	                    USE ONLY SINGLE COLUMN
+i)Primary Key
+if you want a new table to create with Primary key use this
+
+create table staff
+(
+ id int primary key,
+ Emp_name Varchar(100),
+ Age int
+ )
+
+ # If you havea table already, then use primary key for that use this
+
+ alter table student
+ add constraint Gaya3 primary key(id)
+
+ select * from student 
+
+ # if you want to drop the primary key use this
+ alter table student
+ drop constraint Gaya3
+
+                               USE TWO OR MORE COLUMN
+# to create new table
+(
+create table emp_Names
+(
+Id int,
+Name varchar(100),
+Age int,
+Primary key(Id,Age)
+)
+
+ii) UNIQUE KEY( when writing the query dont use (key)word
+1) its never alloe the duplicate key
+2) its allow the Null values
+(we cant see the unique key in the colunm box, we can see in the key box only)
+# for new table 
+create table New
+(
+ id int unique,
+ name varchar(100),
+ age int 
+ )
+ # already we have the table we want to use unique key means use this
+ alter table student
+ add constraint Gaya unique(id)
+
+ # if you want to drop the unique key use this
+ alter table student
+ drop constraint Gaya
+
+ iii) NOT NULL
+ you must add the value in the data in all the columns
+ ex:
+ create table New2
+(
+ id int not null,
+ name varchar(100),
+ age int not null
+ )
+ ( if you insert like this it wont give the out put)
+ insert into New2 values ('ammu')
+ (if you add the full value then only it will run)
+  insert into New2 values (1,'ammu',30)
+
+
+ iv) Check Constrain ( check constrain will check the value is above 18, if its below 18 it wount add the values into the table)
+create table staff_1
+(
+   id int not null,
+   Name varchar(100)null,
+   Age int null check(age>18)
+)
+ insert into staff_1(id,Age) values (1,32)
+ insert into staff_1(id,Age) values (2,15)
+ insert into staff_1(id,Name) values (3,'Jai')
+
+		 select * from staff_1
+
+
+v) Default constraints
+create table staff_2
+(
+   id int not null,
+   Name varchar(100)null,
+   Age int null default 18
+)
+
+insert into staff_2(id,Age) values (1,32)
+insert into staff_2(id,Name) values (3,'Jai')
+
+  select * from staff_2
+
+  vi) Foreign key
+
+  create table tbl_student
+  (
+  id int primary key identity(1,1),
+  Name varchar(100),
+  Age int,
+  Subject varchar(100),
+  Mark int,
+  Depid int,
+  constraint fk_student_depid_tbl_department_id
+     foreign key(depid) references 'department_id' (id)
+	 )
+
+	 create table tbl_department
+	 ( 
+	 id int Primary key identity(1,1)
+	 department_name varchar (100)
+	 )
+	 -----------------------------------------------------------------------------
+	 Day 5
+	 # Join 
+	 joins means 2 table horizontal datas can be merge together
+	 definition
+	 horizontal meriging of records based on convition column
+
+	 # types of Joins
+	 i)Inner join - used to fetch the common data in both table
+	 ii)Full join  -  used to fetch all the data in both table
+	 iii)Left join -  used to fetch all the record from left table(table1) and also merge common data from the right table(table2)
+	 iv) Right join - used to fetch all the record from right table(table2) and also merge common data from the left table(table1)
+	 v) Cross join -  used to inter connect all the datas with eachother in both table(table1 & table 2)
+	 vi) Self join -  used to merge the column in the same table  
+	
+	
+	i) inner join (common datas merge together)
+
+	 create database abcd
+	 create table emp_detail
+	 (
+	 id int identity (1,1),
+	 name varchar(50),
+	 place varchar (50)
+	 )
+	 create table emp_account
+	 ( 
+	 id int,
+	 salary decimal
+	 )
+
+	 SYNTEX
+	 select columns from table1 inner join table2 on table1.column = table2.column
+
+	 select emp_detail.name, emp_detail.place, emp_account.salary from emp_detail inner join emp_account on emp_detail.id = emp_account.id
+	 select * from emp_detail
+	 select * from emp_account
+
+	 ii) Full outer join (outer join)(table 1 datas and table2 datas are display)
+
+	  select emp_detail.name, emp_detail.place, emp_account.salary from emp_detail Full outer join emp_account on emp_detail.id = emp_account.id
+
+	  iii) Left join (left table (table1) first preferane kudukum and the table1 ku matched enna datas irko table2 atha add agum)
+	  Definition
+	  left join retains all te records from left table and the matched records for thr right table
+	  	  select emp_detail.name, emp_detail.place, emp_account.salary from emp_detail  Left join emp_account on emp_detail.id = emp_account.id
+	
+	iv) Right join (Right table (table1) first preferane kudukum and the table1 ku matched enna datas irko table2 atha add agum)
+		  	  select emp_detail.name, emp_detail.place, emp_account.salary from emp_detail  Right join emp_account on emp_detail.id = emp_account.id
+
+	v) self join (single table seperate into 2 table)
+	definition
+	Using self join..,joing the same table
+	syntex 
+	select columns from table1 t1 join table1 t2 on t1.column =t2
+
+	create table man_detail
+	( id int identity(1,1),
+	name varchar(50),
+	Managerid int
+	)
+	select e1.id, e1.name as emp_name, e2.name as manager_name from man_detail e1 join man_detail e2 on e1.managerid = e2.id
+	select * from man_detail
+
+	vi) Cross Join 
+	 all the data is connected with each other datas (left table ellam right table la connect agum)
+	 SYNTEX
+	 select columns from table1 cross join table2
+	 on table1. column = table2 column
+
+     select emp_detail.name, emp_detail.place, emp_account.salary from emp_detail  cross join emp_account 
+
+	 select * from emp_detail
+	 select * from emp_account
+------------------------------------------------------------------------------------------------------------------------
+DAY 6
+UNION (vertical merging of data)
+orea mathirri irunda tablela irukum datakal ondraga inaithu kodupathu, duplicate irunthal remove seithu vitu kodupathu
+ SYNTEX
+ select * from table1
+ union 
+ select * from table2
+       OR
+	   select column names from table1(where condition)
+	   union
+	   select column names from table2(where condition)
+
+ create table Amazon
+ (
+ id int identity(1,1),
+ name varchar (50),
+ Place varchar(100))
+
+ create table Walmart
+ (
+ id int identity(1,1),
+ name varchar (50),
+ Place varchar(100))
+
+ select * from Amazon
+ Union
+ select * from Walmart
+
+  select * from Amazon
+ select * from Walmart
+
+ # UNION ALL
+ Duplicate key ya accept pannathu
+ orae mathiri irandal table irukum datakal ondraga inathukodupathu, duplicate iruthal apadiyae kodupathu
+ SYNTEX
+   select * from Amazon
+ Union all
+ select * from Walmart
+
+ # Intersect
+ only duplicate datas collect
+ SYNTEX
+ select * from Amazon
+intersect
+ select * from Walmart
+
+ # EXCEPT
+
+  select * from Amazon
+except
+ select * from Walmart
+   select * from Amazon
+ select * from Walmart
+ ------------------
+ create table LKG_student
+  (
+  id int identity(1,1),
+  name varchar(50),
+  Father_nam varchar(50),
+  Mother_nam varchar(50),
+  Garden_nam varchar(50),
+  Father_mob char(10),
+  Mother_mob varchar(10),
+  Guardian_mob int
+  )
+  insert into LKG_student values ('Raja','Vimal','Rani','Jai',7451823482,8451267925,745128493)
+    insert into LKG_student (name, Mother_nam, Garden_nam,Mother_mob, Guardian_mob) values ('Raja','Rani','Jai',7451823482,745128493)
+	    insert into LKG_student (name,Father_nam , Garden_nam,Father_mob, Guardian_mob) values ('Vani','Ram','Kumar',7451823482,745128493)
+	Select * from LKG_student
+
+	# yaralam father name illathavagalo avaga list yadukanum naa use this type
+	select name from LKG_student where Father_nam is null 
+	                  OR
+	select * from LKG_student where Father_nam is null
+
+	# if you want to change a colum null values into enter the data use this(single column replace)
+	select name, isnull(Father_nam,'Single_Parent') as father_name from LKG_student
+	if you want to change into 2 or more columns use this 
+	select name, isnull(Father_nam,'Single_Parent') as father_name, isnull(Mother_nam,'Single_Parent') as Mother_name from LKG_student
+
+#COALESCE
+definition: Coalesce oru data onto colunthila illai endral adhutha coluthil irukum datavai payan pasduthi kalalam
+Syntex:
+select name, coalesce(Father_mob,Mother_mob,Guardian_mob) as Contact_info from LKG_student
+select * from LKG_student
+
+	----------------------------------------------------------------------------------------------------------------------------
+	DAY 7
+1) STORE PROCEDURE
+Usage: store procedure can be store for later use and can be used many times
+# TO CREATE
+Syntex:
+create procedure precedure_name
+as begin
+ select * from table_name
+end
+Ececute: exce procedure_name
+example
+ select * from student
+
+ create procedure SP_Register
+ as begin
+ select * from student
+ end
+ execut
+ exec SP_Register
+
+ then go and check it SQL Practice1 - Programmability - store procedures
+                        OR
+create procedure SP_Register1
+(
+  @Id int,
+  @Name varchar(50),
+  @Age int,
+  @Salary Float
+  )
+  as begin
+  select * from student
+  end
+
+  exec SP_Register1
+
+  # TO ALTER
+  query: 
+  Alter procedure SP_Register
+  as begin
+   select name,Salary,Place from SP_Register
+   end
+   exec SP_Register
+
+# To Drop
+Query:
+Drop procedure SP_Register
+
+# to Delete
+ as begin
+ Delete from SP_Register where Id = @Id
+ end
+
+ 2) Function -(oru koda theruba thruba yalutha thava illa)
+ set of reusable code
+ Definition: A setof repeatable code can be Placed in a code block called function which is used to emphasize the reusability concept in sql
+             A user defined function returns a value each time it is called 
+Usage: user defined function help to decompose a large program into small segment which makes program easy to understand, maintain and debug
+ #Type
+ i) In built function created by microsoft in Sql is Systen define function
+ ii) Function created by user is user defined function
+
+ # to create Function
+Syntex
+create function function name()
+returns datatype
+as begin
+returns statement
+end
+
+ex:(use returns in line2, use return in line5)
+create function myfunction()
+returns varchar(50)
+as begin
+return 'Welcome to India'
+end
+
+select dbo.myfunction() as Text_Message
+
+# to Alter Function
+Syntex:
+Alter function function_name()
+returns datatype
+as begin
+return statement
+end
+Ex:
+Alter function myfunction()
+returns Varchar(60)
+as begin
+return 'Gayathri'
+end
+
+# To Drop Function
+Syntex:(at the end no need to use open bracket close bracket)
+Drop Function function_name
+Ex:
+Drop Function myfunction
+
+#Function with Parameter:
+Syntex:
+create function function_name(Parameter datatype)
+returns datatype
+as begin
+return statement
+end
+Ex:
+create function Myfunction_with_Parameter(@name varchar(50))
+returns varchar(60)
+as begin
+return 'Welcome to USA'+@name+'All the best'
+end
+
+select dbo.Myfunction_with_Parameter(' Gayathri ')as Text_Message
+-----------------------------------------------------------------------------------------
+DAY 8
+1) TRIGGER (in this process we used only in table, but we can create for data base also)
+(Based on time of action)ex: bank transcation FOR - OTP, After - Transcation detail)
+definition: A SQL trigger is a databas object which Fires when an event occur in a database or table
+Type:
+DDM Trigger - Create/Alter/drop
+DML Trigger - Insert/Update/Delete
+Syntex:
+create trigger trigger_name
+on table_name for Insert/update/delete
+as begin
+statement
+end
+#Ex; () for Insert
+create trigger trg_Insert
+on student for insert
+as begin
+select count(*) as Total_Register from student
+end
+select * from student
+insert into student values('Guru',41,4587,'CedarFalls')
+# for delete
+create trigger trg_Delete
+on student after Delete
+as begin
+select count(*) as Total_Register from student
+end
+
+delete from student where id = 17
+# for Update
+create trigger trg_Update
+on student for update
+as begin
+select count(*) as Total_Register from student
+end
+
+update student set salary = 4500 where id = 1102
+
+2) Index (only used for Table not for database, only used for column(id))
+# types
+Clustered Inex - Datavai order seithu vittu Index table thayarithal
+Non-Clustered Index - Index table thayarithal
+Definition
+An index is used to retrive the data fast because it will rearrange the data in the database in an orderly manmul
+The create Index statement is used to create Index in table
+# to create
+Syntex:
+create Idex Index_Name
+on table_name (column_name)
+Ex:
+create Index Index1
+on student(id)
+# to Drop
+Syntex:
+Drop Index table_name. Index_name
+Ex:
+drop index student.Index1
+---------------------------------------------------------------------------------------------------
+DAY 9
+1) TEMPORARY TABLE
+Defination: *)temporary table to create a temporarily for doing a process and it will get deleted once the connection is closed or the server is shutdown
+            *) Normal table --tbl_employee--stored in productdp
+			*)Temp table --tbl_employee--stored in tempdp
+			*)Temporary table will have trigger join
+Types i)Local
+     ii)Global
+
+Local table Definition:
+Local temporary table only avalable in SQL server secsion or connection that created the table. These are automatically delete when the section that create the table has been closed Local temporary table name is started with("#") single hash sign
+Syntex:
+create table #local_temp_tblname
+(
+column1 datatype,
+column2 datatype
+)
+Usage: The temp folder provides workspace for programs
+EX:
+create table #tbl_1
+(
+id int,
+name varchar(50)
+)
+insert into #tbl_1 values (1,'John')
+select * from #tbl_1
+
+Global Temporary table
+Defination: Global tenporary table are avaliable to all SQL service session or connections. these can be created by any SQL server connection used and the these are automaticcally deleted when all the SQL server connection have been closed Global temporary table name is stared with double hash ("##") sign
+Syntex:
+create table ##global_tbl_name
+(
+column1 datatype,
+column2 datatype
+)
+EX:
+create table ##tbl_1
+(
+id int,
+name varchar(50)
+)
+insert into ##tbl_1 values (1,'John')
+select * from ##tbl_1
+
+2) NORMAL FORM
+Types:
+i)First Normal Form
+ii)second Normal Form
+iii))Third Normal Form
+iv)Boyce codd Normal Form
+v) Fourth Normal Form
+
+i) First NormalForm
+*)The data should maintain atomic values
+*)Elimination of repeating field type
+ii)second Normal Form
+*) Data is consistent in the database
+*) improve the flexibility is designing a database
+*) improve the overall organization of data in the datbase
+*) improve the security of database
+*) Elimination of transitive dependencies
+
+
+3 TYPE CASTING:
+Type casting is the process by which one data type in a program is converted to another one
+Syntex:
+select cast (expression as datatype)
+Query:
+select cast (15.56 as int) as Type_Casting
+select cast (15.56 as varchar) as Type_Casting
+select cast ('2023-01-25' as datetime) as Type_Casting
+
+4 CONVERT:
+Syntex:
+select convert (expression as datatype)
+Query:
+select convert (int,15.56 ) as Type_Casting
+select convert (varchar,15.56 ) as Type_Casting
+select convert (datetime,'2023-01-25' ) as Type_Casting
+-----------------------------------------------------------------------------------------------------
+                                              DONE
